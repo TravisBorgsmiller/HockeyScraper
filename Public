@@ -1,0 +1,33 @@
+import java.util.LinkedList;
+import java.util.List;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+public class TestForNow {
+
+	public static void main(String[] args) {
+		System.setProperty("webdriver.chrome.driver",
+				"C:\\Users\\Travis Borgsmiller\\Downloads\\chromedriver_win32\\chromedriver.exe");
+		WebDriver driver = new ChromeDriver();
+		WebDriverWait wait = new WebDriverWait(driver, 5);
+
+		List<String> articles = new LinkedList<>();
+
+		driver.get("https://www.nhl.com/news");
+
+		List<WebElement> article_items = driver.findElements(By.className("article-item"));
+
+		wait.until(ExpectedConditions.visibilityOfAllElements(article_items));
+
+		System.out.println("# || Title");
+		
+		for (int i = 1; i < article_items.size(); i++) {
+			WebElement titleEle = article_items.get(i).findElement(By.className("article-item__headline"));
+
+			String title = titleEle.getText();
+			System.out.println(i + ": " + title);
